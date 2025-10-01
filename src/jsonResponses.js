@@ -17,9 +17,13 @@ const respondJSON = (request, response, status, object) => {
     response.end();
 }
 
-const getBookTitles = (request, response) => {
-    const content = {}
-    for( x in books => {
-        
-    });
+const getBookTitles = () => {
+    const content = books.map(b => b.title)
+    console.log(content)
+    // respondJSON(request,response, 200, content);
 }
+
+module.exports = {
+    getBookTitles,
+}
+

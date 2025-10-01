@@ -1,6 +1,9 @@
 const http = require('http');
-const books = require('../data/books.json')
-const query = require('querystring')
+const books = require('../data/books.json');
+const query = require('querystring');
+const jsonHandler = require('./jsonResponses');
+
+const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 /** 
  * Possible EndPoints
@@ -16,10 +19,10 @@ const query = require('querystring')
  * 
  * */ 
 
+  jsonHandler.getBookTitles()
 
 
-
-http.createServer(onRequest).listen(port, () => {
+http.createServer().listen(port, () => {
   console.log(`Listening on 127.0.0.1: ${port}`);
-  console.log(books[0].language);
+  jsonHandler.getBookTitles(request, response)
 });
