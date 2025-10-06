@@ -19,22 +19,37 @@ const respondJSON = (request, response, status, object) => {
 
 // Get a List of All the Book title and Authors
 const getBooks = (request, response) => {
-  const content = books.map((b) => `${b.title} by ${b.author}`);
+  const content = books.map((b) => `${b.title} by ${b.author}, pages: ${b.pages}`);
   respondJSON(request, response, 200, content);
 };
 
 // using a query to find a book from the author from the data set
-const findByAuthor = () => {
-  if (!request.query.author) {
-
+const findByAuthor = (request, response) => {
+  if(!request.query.author){
+    const content = {
+      Error: 'No books with this Author',
+      id: 'AuthorNotFound',
+    };
+    return respondJSON(request, response, 404, content);
   }
 
-  const book = books.filter((x) => x.author.includes('queryParam'));
+
+  const book = books.filter((x) => x.author.includes(request.query.author));
+  return respondJSON(request, response, 200, book);
 };
 
 // using a query to find a book from the title from the data set
-const findByTitle = () => {
-  const book = books.filter((x) => x.title.includes('queryParam'));
+const findByTitle = (request, response) => {
+
+  if(!request.query.title){
+    const content = {
+      message: 'No Book Found with that Title',
+      id: 'bookTitleNotFound',
+    };
+    return respondJSON(request,response,404,content);
+  } 
+  const book = books.filter((x) => x.title.includes(request.query.title));
+  return respondJSON(request, response, 200, book);
 };
 
 // sets the user a list of all the countries the books are from
@@ -43,6 +58,17 @@ const bookCountries = (request, response) => {
 
   respondJSON(request, resposne, 200, country);
 };
+
+
+//POST METHODs
+
+const addBook = () => {
+
+}
+
+const addRating = () =>{
+
+}
 
 module.exports = {
 
