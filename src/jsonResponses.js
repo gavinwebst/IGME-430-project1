@@ -25,7 +25,7 @@ const getBooks = (request, response) => {
 
 // using a query to find a book from the author from the data set
 const findByAuthor = (request, response) => {
-  if(!request.query.author){
+  if (!request.query.author) {
     const content = {
       Error: 'No books with this Author',
       id: 'AuthorNotFound',
@@ -33,21 +33,19 @@ const findByAuthor = (request, response) => {
     return respondJSON(request, response, 404, content);
   }
 
-
   const book = books.filter((x) => x.author.includes(request.query.author));
   return respondJSON(request, response, 200, book);
 };
 
 // using a query to find a book from the title from the data set
 const findByTitle = (request, response) => {
-
-  if(!request.query.title){
+  if (!request.query.title) {
     const content = {
       message: 'No Book Found with that Title',
       id: 'bookTitleNotFound',
     };
-    return respondJSON(request,response,404,content);
-  } 
+    return respondJSON(request, response, 404, content);
+  }
   const book = books.filter((x) => x.title.includes(request.query.title));
   return respondJSON(request, response, 200, book);
 };
@@ -56,19 +54,40 @@ const findByTitle = (request, response) => {
 const bookCountries = (request, response) => {
   const country = books.map((x) => x.country).filter((name, index, self) => self.indexOf(name) === index);
 
-  respondJSON(request, resposne, 200, country);
+  respondJSON(request, response, 200, country);
 };
 
+// POST METHODs
 
-//POST METHODs
+const addBook = (request, response, body) => {
+  // Required fields
+  const required = ['title', 'author', 'pages', 'country'];
+  const missing = required.filter((field) => !body[field]);
+  if (missing.length > 0) {
+    return respondJSON(request, response, 400, {
+      error: `Missing fields: ${missing.join(', ')}`,
+      id: 'missingFields',
+    });
+  }
 
-const addBook = () => {
+  // Add new book
+  const newBook = {
+    title: body.title,
+    author: body.author,
+    pages: Number(body.pages),
+    country: body.country,
+  };
+  books.push(newBook);
 
-}
+  return respondJSON(request, response, 201, {
+    message: 'Book added successfully!',
+    book: newBook,
+  });
+};
 
-const addRating = () =>{
+const addRating = () => {
 
-}
+};
 
 module.exports = {
 
@@ -76,5 +95,7 @@ module.exports = {
   findByAuthor,
   findByTitle,
   bookCountries,
+  addBook,
+  addRating,
 
 };
