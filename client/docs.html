@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Book API Documentation</title>
+	<link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+<body>
+	<div class="mainContent">
+		<h1>Book API Documentation</h1>
+
+		<section class="endpoint">
+			<h2>GetBooks <code>GET</code> <code>HEAD</code></h2>
+			<h3>Query Params</h3>
+			<ul><li>No supported params</li></ul>
+			<h3>Returns</h3>
+			<p>A JSON array with all the book titles and others.</p>
+		</section>
+
+		<section class="endpoint">
+			<h2>findByAuthor <code>GET</code> <code>HEAD</code></h2>
+			<h3>Query Params</h3>
+			<ul><li>author: string</li></ul>
+			<h3>Returns</h3>
+			<p>A JSON book object.</p>
+		</section>
+
+		<section class="endpoint">
+			<h2>findByTitle <code>GET</code> <code>HEAD</code></h2>
+			<h3>Query Params</h3>
+			<ul><li>title: string</li></ul>
+			<h3>Returns</h3>
+			<p>A JSON book object.</p>
+		</section>
+
+		<section class="endpoint">
+			<h2>bookCountries <code>GET</code> <code>HEAD</code></h2>
+			<h3>Query Params</h3>
+			<ul><li>No supported params</li></ul>
+			<h3>Returns</h3>
+			<p>A JSON array of the countries of the books.</p>
+		</section>
+
+		<section class="endpoint">
+			<h2>addBook <code>POST</code></h2>
+			<h3>Supported Body Formats</h3>
+			<ul><li>application/json</li><li>application/x-www-form-urlencoded</li></ul>
+			<h3>Body Params</h3>
+			<ul>
+				<li>author: string</li>
+				<li>country: string</li>
+				<li>link: string (URL)</li>
+				<li>page: number</li>
+				<li>title: string</li>
+				<li>year: number</li>
+			</ul>
+			<h3>Returns</h3>
+			<p>A JSON book object representing the new book.</p>
+		</section>
+
+		<section class="endpoint">
+			<h2>addReview <code>POST</code></h2>
+			<h3>Supported Body Formats</h3>
+			<ul><li>application/json</li><li>application/x-www-form-urlencoded</li></ul>
+			<h3>Body Params</h3>
+			<ul>
+				<li>title: string</li>
+				<li>rating: number</li>
+			</ul>
+			<h3>Returns</h3>
+			<p>A JSON book object representing an updated book, or a 404 if no book with that title exists.</p>
+		</section>
+	</div>
+</body>
+</html>

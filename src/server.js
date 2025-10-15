@@ -35,7 +35,12 @@ const parseBody = (request, response, handler) => {
 
   request.on('end', () => {
     const bodyString = Buffer.concat(body).toString();
+    try{
+      request.body = JSON.parse(bodyString);
+    }
+    catch{
     request.body = query.parse(bodyString);
+    }
 
     handler(request, response);
   });
@@ -52,6 +57,8 @@ const handlePost = (request, response, parsedURL) => {
   const handleGet = (request, response, parsedURL) => {
     if(parsedURL.pathname === '/style.css'){
       htmlHandler.getCSS(request, response);
+    }else if(parsedURL.pathname === '/docs'){
+      htmlHandler.getDocs(request, response);
     } else if(parsedURL.pathname === '/getBooks'){
       jsonHandler.getBooks(request, response);
     } else if(parsedURL.pathname === '/findByAuthor'){

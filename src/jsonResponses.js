@@ -59,22 +59,34 @@ const bookCountries = (request, response) => {
 
 // POST METHODs
 
-const addBook = (request, response, body) => {
-  if (!body.title || !body.author || !body.pages || !body.country) {
+const addBook = (request, response) => {
+  if (!request.body.title || !request.body.author || !request.body.year) {
     return respondJSON(request, response, 400, { error: 'Missing required fields.' });
   }
   const newBook = {
-    title: body.title,
-    author: body.author,
-    pages: Number(body.pages),
-    country: body.country,
+    title: request.body.title,
+    author: request.body.author,
+    year: request.body.year,
   };
   books.push(newBook);
   return respondJSON(request, response, 201, { message: 'Book added!', book: newBook });
 };
 
-const addRating = () => {
-
+const addRating = (request, response) => {
+  if (!request.body.title) {
+    return respondJSON(request, response, 400, { error: 'Missing required fields.' });
+  }
+  let book = books.find((b) => b.title === request.body.title);
+  if (!book) {
+    book = {
+      title: request.body.title,
+      rating: request.body.rating,
+    };
+    books.push(book);
+    return respondJSON(request, response, 201, { message: 'Book created with rating!', book });
+  }
+  book.rating = request.body.rating;
+  return respondJSON(request, response, 200, { message: 'Rating added!', book });
 };
 
 module.exports = {
