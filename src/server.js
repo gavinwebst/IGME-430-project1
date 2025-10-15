@@ -67,8 +67,13 @@ const handlePost = (request, response, parsedURL) => {
       jsonHandler.findByTitle(request, response);
     } else if(parsedURL.pathname === '/bookCountries'){
       jsonHandler.bookCountries(request, response);
-    } else {
+    } else if(parsedURL.pathname === '/'){
       htmlHandler.getIndex(request, response);
+      
+    } else if(parsedURL.pathname === '/bundle.js'){
+      htmlHandler.getBundle(request, response);
+    } else {
+      jsonHandler.notFound(request, response);
     }
   }
 

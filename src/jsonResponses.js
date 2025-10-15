@@ -89,6 +89,15 @@ const addRating = (request, response) => {
   return respondJSON(request, response, 200, { message: 'Rating added!', book });
 };
 
+//not found
+const notFound = (request, response) => {
+  const content = {
+    message: 'The page you are looking for was not found.',
+    id: 'notFound',
+  };
+  respondJSON(request, response, 404, content);
+}
+
 module.exports = {
 
   getBooks,
@@ -97,5 +106,6 @@ module.exports = {
   bookCountries,
   addBook,
   addRating,
+  notFound,
 
 };
