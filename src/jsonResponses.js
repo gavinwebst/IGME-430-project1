@@ -52,9 +52,10 @@ const findByTitle = (request, response) => {
 
 // sets the user a list of all the countries the books are from
 const bookCountries = (request, response) => {
-  const country = books.map((x) => x.country).filter((name, index, self) => self.indexOf(name) === index);
+  const country = books.map((x) => x.country);
+  const filteredCountry = country.filter((name, index, self) => self.indexOf(name) === index);
 
-  respondJSON(request, response, 200, country);
+  respondJSON(request, response, 200, filteredCountry);
 };
 
 // POST METHODs
@@ -89,14 +90,14 @@ const addRating = (request, response) => {
   return respondJSON(request, response, 200, { message: 'Rating added!', book });
 };
 
-//not found
+// not found
 const notFound = (request, response) => {
   const content = {
     message: 'The page you are looking for was not found.',
     id: 'notFound',
   };
   respondJSON(request, response, 404, content);
-}
+};
 
 module.exports = {
 

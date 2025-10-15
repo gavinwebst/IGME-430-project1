@@ -1,6 +1,5 @@
 const http = require('http');
 const query = require('querystring');
-const books = require('../data/books.json');
 const jsonHandler = require('./jsonResponses.js');
 const htmlHandler = require('./htmlResponses.js');
 
@@ -35,11 +34,10 @@ const parseBody = (request, response, handler) => {
 
   request.on('end', () => {
     const bodyString = Buffer.concat(body).toString();
-    try{
+    try {
       request.body = JSON.parse(bodyString);
-    }
-    catch{
-    request.body = query.parse(bodyString);
+    } catch (e) {
+      request.body = query.parse(bodyString);
     }
 
     handler(request, response);
@@ -47,36 +45,34 @@ const parseBody = (request, response, handler) => {
 };
 
 const handlePost = (request, response, parsedURL) => {
-  if(parsedURL.pathname === '/addBook'){
+  if (parsedURL.pathname === '/addBook') {
     parseBody(request, response, jsonHandler.addBook);
-  } else if (parsedURL.pathname === '/addRating'){
+  } else if (parsedURL.pathname === '/addRating') {
     parseBody(request, response, jsonHandler.addRating);
   }
-}
+};
 
-  const handleGet = (request, response, parsedURL) => {
-    if(parsedURL.pathname === '/style.css'){
-      htmlHandler.getCSS(request, response);
-    }else if(parsedURL.pathname === '/docs'){
-      htmlHandler.getDocs(request, response);
-    } else if(parsedURL.pathname === '/getBooks'){
-      jsonHandler.getBooks(request, response);
-    } else if(parsedURL.pathname === '/findByAuthor'){
-      jsonHandler.findByAuthor(request, response);
-    } else if(parsedURL.pathname === '/findByTitle') {
-      jsonHandler.findByTitle(request, response);
-    } else if(parsedURL.pathname === '/bookCountries'){
-      jsonHandler.bookCountries(request, response);
-    } else if(parsedURL.pathname === '/'){
-      htmlHandler.getIndex(request, response);
-      
-    } else if(parsedURL.pathname === '/bundle.js'){
-      htmlHandler.getBundle(request, response);
-    } else {
-      jsonHandler.notFound(request, response);
-    }
+const handleGet = (request, response, parsedURL) => {
+  if (parsedURL.pathname === '/style.css') {
+    htmlHandler.getCSS(request, response);
+  } else if (parsedURL.pathname === '/docs') {
+    htmlHandler.getDocs(request, response);
+  } else if (parsedURL.pathname === '/getBooks') {
+    jsonHandler.getBooks(request, response);
+  } else if (parsedURL.pathname === '/findByAuthor') {
+    jsonHandler.findByAuthor(request, response);
+  } else if (parsedURL.pathname === '/findByTitle') {
+    jsonHandler.findByTitle(request, response);
+  } else if (parsedURL.pathname === '/bookCountries') {
+    jsonHandler.bookCountries(request, response);
+  } else if (parsedURL.pathname === '/') {
+    htmlHandler.getIndex(request, response);
+  } else if (parsedURL.pathname === '/bundle.js') {
+    htmlHandler.getBundle(request, response);
+  } else {
+    jsonHandler.notFound(request, response);
   }
-
+};
 
 const onRequest = (request, response) => {
   const protocol = request.connection.encryped ? 'https' : 'http';
@@ -84,7 +80,7 @@ const onRequest = (request, response) => {
 
   request.query = Object.fromEntries(parsedUrl.searchParams);
 
-  if(request.method === 'POST'){
+  if (request.method === 'POST') {
     handlePost(request, response, parsedUrl);
   } else {
     handleGet(request, response, parsedUrl);
